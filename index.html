@@ -7,12 +7,82 @@
     body { font-family: sans-serif; max-width: 500px; margin: 40px auto; }
     .question { font-size: 1.2em; margin-bottom: 1em; }
     .answers { margin-bottom: 1em; }
-    .answers button { display: block; margin: 0.5em 0; width: 100%; }
-    .progress { margin-bottom: 1em; }
-    .next-btn { margin-top: 1em; }
+    .answers button { 
+      display: block; 
+      margin: 0.5em 0; 
+      width: 100%; 
+      text-align: left; 
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .answers button:hover { 
+      background-color: #f0f0f0; 
+    }
+    .answers button.correct { 
+      background-color: #cfc; 
+      border-color: #8a8;
+    }
+    .answers button.incorrect { 
+      background-color: #fcc; 
+      border-color: #a88;
+    }
+    .progress { 
+      margin-bottom: 1em; 
+      font-weight: bold;
+      color: #555;
+    }
+    .next-btn { 
+      margin-top: 1em; 
+      padding: 10px 20px;
+      background-color: #4a7ebb;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .next-btn:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+    .result-info {
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .result-correct {
+      background-color: #e8f7e8;
+      color: #3c763d;
+    }
+    .result-incorrect {
+      background-color: #f8e8e8;
+      color: #a94442;
+    }
+    .results-container {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+    }
   </style>
-  <!-- MathJax для LaTeX -->
+  <!-- MathJax для LaTeX - обновленная конфигурация -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
   <script id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -20,6 +90,7 @@
   <div class="progress"></div>
   <div class="question"></div>
   <div class="answers"></div>
+  <div class="result-info" style="display: none;"></div>
   <button class="next-btn" disabled>Следующий вопрос</button>
   <script>
     // Вопросы и ответы с LaTeX
@@ -975,7 +1046,7 @@
     "correct": 0
   },
   {
-    "q": "197. Екі тәуелсіз оқиғалардың ықтималдылықтары тиісінше байқа болу ықтималдықтары сәйкес 0,2 және 0,8-ге тең. Тек бір ғана оқиғаның пайда болу ықтималдылығын табыңдар.",
+    "q": "197. Екі тәуелсіз оқиғалардың ықтималдықтары тиісінше байқа болу ықтималдықтары сәйкес 0,2 және 0,8-ге тең. Тек бір ғана оқиғаның пайда болу ықтималдылығын табыңдар.",
     "a": [
       "$P = 0,2 \\cdot 0,2 + 0,8 \\cdot 0,8 = 0,68$",
       "$P = 0,2 \\cdot (1-0,8) + 0,8 \\cdot (1-0,2) = 0,2 \\cdot 0,2 + 0,8 \\cdot 0,8 = 0,68$",
@@ -1145,7 +1216,7 @@
     "correct": 3
   },
   {
-    "q": "225. Тиын 7 рет лақтырылды, «герб» жағы түра 4 рет түсу ықтималдылығын табыңдар.",
+    "q": "225. Тиын 7 рет лақтырылды, «герб» жағы түра 4 рет түсу ықтималдылығын табыңыз.",
     "a": [
       "$P = C_7^4 \\cdot 0,5^4 \\cdot 0,5^3 = 35 \\cdot 0,5^7 = 35 \\cdot \\frac{1}{128} = \\frac{35}{128} \\approx 0,273$",
       "$P = C_7^4 \\cdot 0,5^4 \\cdot 0,5^3 = 35 \\cdot 0,0625 \\cdot 0,125 = 35 \\cdot 0,00781 = 0,273$",
@@ -1158,8 +1229,8 @@
     "q": "226. Табу керек D(ξ), егер Z = 5x – 2y, D(x) = 3, D(y) = 4.",
     "a": [
       "$D(Z) = 25 \\cdot D(x) + 4 \\cdot D(y) = 25 \\cdot 3 + 4 \\cdot 4 = 75 + 16 = 91$",
-      "$D(Z) = 5^2 \\cdot D(x) + (-2)^2 \\cdot D(y) = 25 \\cdot 3 + 4 \\cdot 4 = 75 + 16 = 91$",
-      "$D(Z) = D(5x) + D(-2y) = 5^2 \\cdot D(x) + (-2)^2 \\cdot D(y) = 25 \\cdot 3 + 4 \\cdot 4 = 75 + 16 = 91$",
+      "$D(Z) = 5^2 \\cdot D(x) + (-2)^2 \\cdot D(y) = 25 \\cdot 3 + 4 \cdot 4 = 75 + 16 = 91$",
+      "$D(Z) = D(5x) + D(-2y) = 5^2 \\cdot D(x) + (-2)^2 \\cdot D(y) = 25 \\cdot 3 + 4 \cdot 4 = 75 + 16 = 91$",
       "$D(Z) = 5 \\cdot D(x) + 2 \\cdot D(y) = 5 \\cdot 3 + 2 \\cdot 4 = 15 + 8 = 23$"
     ],
     "correct": 1
@@ -1177,10 +1248,10 @@
   {
     "q": "228. Есептеңіз: $P_5 - C_4^3 =$",
     "a": [
-      "$P_5 - C_4^3 = 5! - \\frac{4!}{3!1!} = 120 - 4 = 116$",
-      "$P_5 - C_4^3 = 5! - \\frac{4!}{3!(4-3)!} = 120 - 4 = 116$",
+      "$P_5 - C_4^3 = 5! - 4! = 120 - 4 = 116$",
+      "$P_5 - C_4^3 = 5! - \\frac{4!}{3!} = 120 - 4 = 116$",
       "$P_5 - C_4^3 = 120 - 4 = 116$",
-      "$P_5 - C_4^3 = 5 \\cdot 4 \\cdot 3 \\cdot 2 \\cdot 1 - \\frac{4!}{3!1!} = 120 - 4 = 116$"
+      "$P_5 - C_4^3 = 5 \\cdot 4 \\cdot 3 \\cdot 2 \\cdot 1 - \\frac{4!}{3!} = 120 - 4 = 116$"
     ],
     "correct": 2
   },
@@ -1189,7 +1260,7 @@
     "a": [
       "$A_2^2 = A_5^x \\Rightarrow 2 = \\frac{5!}{(5-x)!} \\Rightarrow x = 1$",
       "$A_2^2 = A_5^x \\Rightarrow 2 = \\frac{5!}{(5-x)!} \\Rightarrow (5-x)! = \\frac{5!}{2} = 60 \\Rightarrow x = 1$",
-      "$A_2^2 = A_5^x \\Rightarrow 2 = 5 \\cdot 4 \\cdot ... \\cdot (5-x+1) \\Rightarrow x = 1$",
+      "$A_2^2 = A_5^x \\Rightarrow 2 = 5 \\cdot 4 \cdot ... \cdot (5-x+1) \\Rightarrow x = 1$",
       "$A_2^2 = A_5^x \\Rightarrow 2 = 5 \\Rightarrow x = 1$"
     ],
     "correct": 0
@@ -1225,7 +1296,7 @@
     "correct": 1
   },
   {
-    "q": "233. Екі мерген бір реттен оқ атты. Бірінші мергеннің нысанаға оқ тигізу ықтималдығы 0,7, ал екіншінікі 0,6. Нысанаға екі мергеннің оқ болмағанда біреуінің оқ тигізу ықтималдығын табыңдар.",
+    "q": "233. Екі мерген бір реттен оқ атты. Бірінші мергеннің нысанаға оқ тигізу ықтималдығы 0,7, ал екіншінікі 0,6. Нысанаға екі мергеннің оқ болмағанда біреуінің оқ тигізу ықтималдылығын табыңдар.",
     "a": [
       "$P = P(A) \\cdot (1 - P(B)) + P(B) \\cdot (1 - P(A)) = 0,7 \\cdot (1-0,6) + 0,6 \\cdot (1-0,7) = 0,7 \\cdot 0,4 + 0,6 \\cdot 0,3 = 0,28 + 0,18 = 0,46$",
       "$P = 0,7 \\cdot 0,4 + 0,6 \\cdot 0,3 = 0,28 + 0,18 = 0,46$",
@@ -1255,27 +1326,7 @@
     "correct": 2
   },
   {
-    "q": "236. Екі мерген бір реттен оқ атты. Бірінші мергеннің нысанаға оқ тигізу ықтималдығы 0,7, ал екіншінікі 0,6. Нысанаға екі мергеннің тек біреуінің оқ тигізу ықтималдығын табыңдар.",
-    "a": [
-      "$P = P(A) \\cdot (1 - P(B)) + P(B) \\cdot (1 - P(A)) = 0,7 \\cdot (1-0,6) + 0,6 \\cdot (1-0,7) = 0,7 \\cdot 0,4 + 0,6 \\cdot 0,3 = 0,28 + 0,18 = 0,46$",
-      "$P = 0,7 \\cdot 0,4 + 0,6 \\cdot 0,3 = 0,28 + 0,18 = 0,46$",
-      "$P = 0,7 \\cdot (1-0,6) + 0,6 \\cdot (1-0,7) = 0,28 + 0,18 = 0,46$",
-      "$P = P(A \\triangle B) = P(A \\cup B) - P(A \\cap B) = P(A) + P(B) - 2P(A)P(B) = 0,7 + 0,6 - 2 \\cdot 0,7 \\cdot 0,6 = 1,3 - 0,84 = 0,46$"
-    ],
-    "correct": 0
-  },
-  {
-    "q": "237. Жәшікте 11 детальдың 3 жарамсыз. Таңдамай алынған 4 детальдың жарамды болу ықтималдылығын табыңыз.",
-    "a": [
-      "$P = \\frac{C_8^4}{C_{11}^4} = \\frac{70}{330} = \\frac{7}{33}$",
-      "$P = \\frac{C_8^4}{C_{11}^4} = \\frac{8 \cdot 7 \cdot 6 \cdot 5}{11 \cdot 10 \cdot 9 \cdot 8} \cdot \\frac{4!}{4!} = \\frac{8 \cdot 7 \cdot 6 \cdot 5}{11 \cdot 10 \cdot 9 \cdot 8} = \\frac{1680}{7920} = \\frac{7}{33}$",
-      "$P = \\frac{A_8^4}{A_{11}^4} = \\frac{1680}{7920} = \\frac{7}{33}$",
-      "$P = \\frac{8}{11} \cdot \\frac{7}{10} \cdot \\frac{6}{9} \cdot \\frac{5}{8} = \\frac{1680}{7920} = \\frac{7}{33}$"
-    ],
-    "correct": 0
-  },
-  {
-    "q": "238. Екі мерген бір реттен оқ атты. Бірінші мергеннің нысанаға оқ тигізу ықтималдығы 0,8 ал екіншінікі 0,7. Нысанаға екі мергеннің оқтары да тиіп тигізу ықтималдығын табыңыз",
+    "q": "236. Екі мерген бір реттен оқ атты. Бірінші мергеннің нысанаға оқ тигізу ықтималдығы 0,8 ал екіншінікі 0,7. Нысанаға екі мергеннің оқтары да тиіп тигізу ықтималдылығын табыңыз",
     "a": [
       "$P = P(A) \\cdot P(B) = 0,8 \\cdot 0,7 = 0,56$",
       "$P = 0,8 \\cdot 0,7 = 0,56$",
@@ -1305,7 +1356,7 @@
     "correct": 0
   },
   {
-    "q": "241. Барлығы 10 түйрейші бар. Оның 5 темір, 3 мыс, 2 алюминий. Таңдамай алынған екі түйреуіштің мыс болып шығу ықтималдылығын табыңыз.",
+    "q": "241. Барлығы 10 түйрейіш бар. Оның 5 темір, 3 мыс, 2 алюминий. Таңдамай алынған екі түйреуіштің мыс болып шығу ықтималдылығын табыңыз.",
     "a": [
       "$P = \\frac{C_3^2}{C_{10}^2} = \\frac{3}{45} = \\frac{1}{15}$",
       "$P = \\frac{C_3^2}{C_{10}^2} = \\frac{3 \cdot 2 / 2}{10 \cdot 9 / 2} = \\frac{3}{45} = \\frac{1}{15}$",
@@ -1335,7 +1386,7 @@
     "correct": 0
   },
   {
-    "q": "244. Барлығы 10 түйреуіш бар. Оның 5 темір, 3 мыс, 2 алюминий. Таңдамай алынған екі түйреуіштің алюминий болып шығу ықтималдылығын табыңыз.",
+    "q": "244. Барлығы 10 түйреіш бар. Оның 5 темір, 3 мыс, 2 алюминий. Таңдамай алынған екі түйреуіштің алюминий болып шығу ықтималдылығын табыңыз.",
     "a": [
       "$P = \\frac{C_2^2}{C_{10}^2} = \\frac{1}{45} = \\frac{1}{45}$",
       "$P = \\frac{C_2^2}{C_{10}^2} = \\frac{1}{45}$",
@@ -1345,7 +1396,7 @@
     "correct": 1
   },
   {
-    "q": "245. Жәшіктегі 10 детальдың екеуі жарамсыз. Таңдамай алынған детальдың жарамсыз болу ықтималдылығын табыңыз.",
+    "q": "245. Жәшіктегі 10 детальдың 2-еуі жарамсыз. Таңдамай алынған детальдың жарамсыз болу ықтималдылығын табыңыз.",
     "a": [
       "$P = \\frac{2}{10} = \\frac{1}{5} = 0,2$",
       "$P = \\frac{8}{10} = \\frac{4}{5} = 0,8$",
@@ -1409,7 +1460,7 @@
     "a": [
       "$P = \\frac{C_4^2}{C_{11}^2} = \\frac{6}{55} = \\frac{6}{55}$",
       "$P = \\frac{C_4^2}{C_{11}^2} = \\frac{6}{55}$",
-      "$P = \\frac{4}{11} \\cdot \\frac{3}{10} = \\frac{12}{110} = \\frac{6}{55}$",
+      "$P = \\frac{4}{11} \cdot \\frac{3}{10} = \\frac{12}{110} = \\frac{6}{55}$",
       "$P = \\frac{A_4^2}{A_{11}^2} = \\frac{12}{110} = \\frac{6}{55}$"
     ],
     "correct": 1
@@ -1445,7 +1496,7 @@
     "correct": 3
   },
   {
-    "q": "255. Күннің жаңбырлы болу ықтималдығы 0,77 тең. Күннің ашық болу ықтималдылығын табыңыз.",
+    "q": "255. Күннің жаңбырлы болу ықтималдылығы 0,77 тең. Күннің ашық болу ықтималдылығын табыңыз.",
     "a": [
       "$P = 1 - 0,77 = 0,23$",
       "$P = 1 - 0,77 = 0,23$",
@@ -1455,7 +1506,7 @@
     "correct": 0
   },
   {
-    "q": "256. Үрнада 4 ақ, 5 қызыл, 6 қара шар бар. Үрнадан кездейсоқ алынған шар қызыл болу ықтималдығы?",
+    "q": "256. Үрнада 4 ақ, 5 қызыл, 6 қара шар бар. Үрнадан кездейсоқ алынған шар қызыл болу ықтималдылығы?",
     "a": [
       "$P = \\frac{5}{4+5+6} = \\frac{5}{15} = \\frac{1}{3} = 0,333$",
       "$P = \\frac{5}{15} = \\frac{1}{3}$",
@@ -1465,7 +1516,7 @@
     "correct": 0
   },
   {
-    "q": "257. Үрнада 7 ақ, 3 қызыл, 5 қара шар бар. Үрнадан кездейсоқ алынған шар қара болу ықтималдығын табыңыз.",
+    "q": "257. Үрнада 7 ақ, 3 қызыл, 5 қара шар бар. Үрнадан кездейсоқ алынған шар қара болу ықтималдылығын табыңыз.",
     "a": [
       "$P = \\frac{5}{7+3+5} = \\frac{5}{15} = \\frac{1}{3} = 0,333$",
       "$P = \\frac{5}{15} = \\frac{1}{3}$",
@@ -1579,7 +1630,7 @@
     "a": [
       "$M(\\xi) = \\sum x_i p_i = 2 \\cdot 0,1 + 4 \\cdot 0,5 + 5 \\cdot 0,1 + 7 \\cdot 0,3 = 0,2 + 2 + 0,5 + 2,1 = 4,8$",
       "$M(\\xi) = \\sum x_i p_i = 2 \\cdot 0,1 + 4 \\cdot 0,5 + 5 \\cdot 0,1 + 7 \\cdot 0,3 = 4,8$",
-      "$M(\\xi) = \\frac{\\sum x_i p_i}{\\sum p_i} = \\frac{3 \\cdot 0,2 + 5 \\cdot 0,8}{0,2 + 0,8} = 4,6$",
+      "$M(\\xi) = \\frac{\\sum x_i \\cdot p_i}{\\sum p_i} = \\frac{3 \\cdot 0,2 + 5 \\cdot 0,8}{0,2 + 0,8} = 4,6$",
       "$M(\\xi) = \\sum p_i \\cdot a_i = 0,2 \\cdot 3 + 0,8 \\cdot 5 = 0,6 + 4 = 4,6$"
     ],
     "correct": 0
@@ -1727,8 +1778,8 @@
   {
     "q": "284. Есептеңіз: $C_5^3 =$",
     "a": [
-      "$C_5^3 = \\frac{5!}{3!(5-3)!} = \\frac{5!}{3!2!} = \\frac{5 \cdot 4 \cdot 3!}{3! \cdot 2 \cdot 1} = \\frac{5 \cdot 4}{2 \cdot 1} = 10$",
-      "$C_5^3 = \\frac{5!}{3!(5-3)!} = \\frac{120}{12} = 10$",
+      "$C_5^3 = \\frac{5!}{3!(5-3)!} = \\frac{5!}{3!2!} = 10$",
+      "$C_5^3 = \\frac{5!}{3!} = \\frac{120}{12} = 10$",
       "$C_5^3 = \\frac{5!}{3!} = \\frac{120}{6} = 20$",
       "$C_5^3 = \\frac{5!}{(5-3)!} = \\frac{120}{2} = 60$"
     ],
@@ -1775,7 +1826,7 @@
     "correct": 0
   },
   {
-    "q": "289. Бірдей 5 карточкада О, Т, П, А, П әріптері жазылған. Төбектей алынған карточкалардан «ТОПАТ» сөзін құрастыру ықтималдылығын табыңыз.",
+    "q": "289. Бірдей 5 карточкада О, Т, П, А, П әріптері жазылған. Төбектей алынған карточкалардан «ТОПАТ» сөзін құрастыру ықтималдылығын табыңдар.",
     "a": [
       "$P = \\frac{1}{P_5} = \\frac{1}{5!} = \\frac{1}{120}$",
       "$P = \\frac{5!}{5^5} = \\frac{120}{3125} = \\frac{24}{625}$",
@@ -1924,15 +1975,19 @@
 
     let current = 0;
     let selected = null;
+    let correctCount = 0;
+    let totalAnswered = 0;
 
     const progressEl = document.querySelector('.progress');
     const questionEl = document.querySelector('.question');
     const answersEl = document.querySelector('.answers');
+    const resultInfoEl = document.querySelector('.result-info');
     const nextBtn = document.querySelector('.next-btn');
 
     function renderQuestion() {
       selected = null;
       nextBtn.disabled = true;
+      resultInfoEl.style.display = 'none';
       progressEl.textContent = `Вопрос ${current + 1} из ${quiz.length}`;
       questionEl.innerHTML = quiz[current].q;
       answersEl.innerHTML = '';
@@ -1940,14 +1995,58 @@
         const btn = document.createElement('button');
         btn.innerHTML = ans.text;
         btn.onclick = () => {
+          if (selected !== null) return; // Предотвращаем повторный выбор
+          
           selected = idx;
-          Array.from(answersEl.children).forEach(b => b.disabled = true);
-          btn.style.background = ans.isCorrect ? '#cfc' : '#fcc';
+          totalAnswered++;
+          
+          // Находим правильный ответ для подсветки
+          let correctIndex = quiz[current].answers.findIndex(a => a.isCorrect);
+          
+          // Отключаем все кнопки и подсвечиваем правильный и выбранный ответы
+          Array.from(answersEl.children).forEach((b, i) => {
+            b.disabled = true;
+            
+            if (i === correctIndex) {
+              b.classList.add('correct');
+            }
+            
+            if (i === selected && !ans.isCorrect) {
+              b.classList.add('incorrect');
+            }
+          });
+          
+          // Показываем информацию о результате
+          if (ans.isCorrect) {
+            correctCount++;
+            resultInfoEl.textContent = 'Правильно!';
+            resultInfoEl.className = 'result-info result-correct';
+          } else {
+            resultInfoEl.textContent = 'Неправильно! Правильный ответ отмечен зеленым.';
+            resultInfoEl.className = 'result-info result-incorrect';
+          }
+          resultInfoEl.style.display = 'block';
+          
           nextBtn.disabled = false;
         };
         answersEl.appendChild(btn);
       });
-      if (window.MathJax) MathJax.typesetPromise();
+      
+      // Улучшенная обработка MathJax
+      if (window.MathJax) {
+        if (typeof MathJax.typeset === 'function') {
+          MathJax.typeset();
+        } else if (typeof MathJax.typesetPromise === 'function') {
+          MathJax.typesetPromise();
+        } else {
+          // Альтернативный вариант для старых версий
+          setTimeout(() => {
+            if (typeof MathJax.Hub !== 'undefined') {
+              MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            }
+          }, 100);
+        }
+      }
     }
 
     nextBtn.onclick = () => {
@@ -1955,14 +2054,41 @@
       if (current < quiz.length) {
         renderQuestion();
       } else {
-        questionEl.textContent = "Тест завершён!";
-        answersEl.innerHTML = '';
-        progressEl.textContent = '';
-        nextBtn.style.display = 'none';
+        showResults();
       }
     };
 
+    function showResults() {
+      questionEl.innerHTML = "<h2>Тест завершён!</h2>";
+      answersEl.innerHTML = '';
+      
+      const resultsContainer = document.createElement('div');
+      resultsContainer.className = 'results-container';
+      
+      const percentage = Math.round((correctCount / totalAnswered) * 100);
+      resultsContainer.innerHTML = `
+        <p>Вы правильно ответили на <strong>${correctCount}</strong> из <strong>${totalAnswered}</strong> вопросов (${percentage}%).</p>
+        <p>Спасибо за прохождение теста!</p>
+      `;
+      
+      answersEl.appendChild(resultsContainer);
+      progressEl.textContent = '';
+      resultInfoEl.style.display = 'none';
+      nextBtn.style.display = 'none';
+    }
+
     renderQuestion();
+
+    // Дополнительно обработаем MathJax после полной загрузки страницы
+    window.onload = function() {
+      if (window.MathJax) {
+        if (typeof MathJax.typeset === 'function') {
+          MathJax.typeset();
+        } else if (typeof MathJax.typesetPromise === 'function') {
+          MathJax.typesetPromise();
+        }
+      }
+    };
   </script>
 </body>
 </html>
